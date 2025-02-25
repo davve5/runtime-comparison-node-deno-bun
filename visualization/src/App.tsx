@@ -14,6 +14,11 @@ import {
 } from 'recharts';
 
 // Define TypeScript interfaces for the benchmark data structure
+const NODEJS = 0;
+const BUN = 2;
+const DENO = 1;
+
+
 interface TestResult {
   executionTime: {
     avg: number;
@@ -44,16 +49,14 @@ interface RuntimeData {
 }
 
 interface BenchmarkData {
-  node: RuntimeData;
-  deno: RuntimeData;
-  bun: RuntimeData;
-  [key: string]: RuntimeData;
+  runtimes: RuntimeData[]
+  // [key: string]: RuntimeData;
 }
 
 // Function to load benchmark data from JSON file
 const loadBenchmarkData = async (): Promise<BenchmarkData> => {
   try {
-    const response = await fetch('/data/benchmark-results.json');
+    const response = await fetch('/data/benchmark-results-combined.json');
     if (!response.ok) {
       throw new Error(`Failed to load benchmark data: ${response.statusText}`);
     }
@@ -78,9 +81,9 @@ const prepareExecutionTimeData = (benchmarkData: BenchmarkData) => {
     const [category, testName] = test.key.split('.');
     return {
       name: test.name,
-      'Node.js': benchmarkData.node.summary[category as keyof RuntimeSummary][testName].executionTime.avg,
-      'Deno': benchmarkData.deno.summary[category as keyof RuntimeSummary][testName].executionTime.avg,
-      'Bun': benchmarkData.bun.summary[category as keyof RuntimeSummary][testName].executionTime.avg
+      'Node.js': benchmarkData.runtimes[NODEJS].summary[category as keyof RuntimeSummary][testName].executionTime.avg,
+      'Deno': benchmarkData.runtimes[DENO].summary[category as keyof RuntimeSummary][testName].executionTime.avg,
+      'Bun': benchmarkData.runtimes[BUN].summary[category as keyof RuntimeSummary][testName].executionTime.avg
     };
   });
 };
@@ -98,9 +101,9 @@ const prepareMemoryUsageData = (benchmarkData: BenchmarkData) => {
     const [category, testName] = test.key.split('.');
     return {
       name: test.name,
-      'Node.js': benchmarkData.node.summary[category as keyof RuntimeSummary][testName].memoryUsage.avg,
-      'Deno': benchmarkData.deno.summary[category as keyof RuntimeSummary][testName].memoryUsage.avg,
-      'Bun': benchmarkData.bun.summary[category as keyof RuntimeSummary][testName].memoryUsage.avg
+      'Node.js': benchmarkData.runtimes[NODEJS].summary[category as keyof RuntimeSummary][testName].memoryUsage.avg,
+      'Deno': benchmarkData.runtimes[DENO].summary[category as keyof RuntimeSummary][testName].memoryUsage.avg,
+      'Bun': benchmarkData.runtimes[BUN].summary[category as keyof RuntimeSummary][testName].memoryUsage.avg
     };
   });
 };
@@ -112,48 +115,48 @@ const prepareRadarData = (benchmarkData: BenchmarkData) => {
   };
 
   // For execution time, lower is better, so we invert the scale
-  const getTimeScore = (category: keyof RuntimeSummary, test: string, runtime: string) => {
+  const getTimeScore = (category: keyof RuntimeSummary, test: string, runtime: number) => {
     const times = [
-      benchmarkData.node.summary[category][test].executionTime.avg,
-      benchmarkData.deno.summary[category][test].executionTime.avg,
-      benchmarkData.bun.summary[category][test].executionTime.avg
+      benchmarkData.runtimes[NODEJS].summary[category][test].executionTime.avg,
+      benchmarkData.runtimes[DENO].summary[category][test].executionTime.avg,
+      benchmarkData.runtimes[BUN].summary[category][test].executionTime.avg
     ];
     const min = Math.min(...times);
     const max = Math.max(...times);
     // Invert because lower execution time is better
-    return 100 - normalizeValue(benchmarkData[runtime].summary[category][test].executionTime.avg, min, max);
+    return 100 - normalizeValue(benchmarkData.runtimes[runtime].summary[category][test].executionTime.avg, min, max);
   };
 
   return [
     {
       category: "Memory Allocation",
-      "Node.js": getTimeScore("memory", "allocationDeallocation", "node"),
-      "Deno": getTimeScore("memory", "allocationDeallocation", "deno"),
-      "Bun": getTimeScore("memory", "allocationDeallocation", "bun")
+      "Node.js": getTimeScore("memory", "allocationDeallocation", NODEJS),
+      "Deno": getTimeScore("memory", "allocationDeallocation", DENO),
+      "Bun": getTimeScore("memory", "allocationDeallocation", BUN)
     },
     {
       category: "JSON Processing",
-      "Node.js": getTimeScore("memory", "jsonLoad", "node"),
-      "Deno": getTimeScore("memory", "jsonLoad", "deno"),
-      "Bun": getTimeScore("memory", "jsonLoad", "bun")
+      "Node.js": getTimeScore("memory", "jsonLoad", NODEJS),
+      "Deno": getTimeScore("memory", "jsonLoad", DENO),
+      "Bun": getTimeScore("memory", "jsonLoad", BUN)
     },
     {
       category: "File I/O",
-      "Node.js": getTimeScore("diskIO", "fileRead", "node"),
-      "Deno": getTimeScore("diskIO", "fileRead", "deno"),
-      "Bun": getTimeScore("diskIO", "fileRead", "bun")
+      "Node.js": getTimeScore("diskIO", "fileRead", NODEJS),
+      "Deno": getTimeScore("diskIO", "fileRead", DENO),
+      "Bun": getTimeScore("diskIO", "fileRead", BUN)
     },
     {
       category: "Recursion",
-      "Node.js": getTimeScore("cpu", "fibonacci", "node"),
-      "Deno": getTimeScore("cpu", "fibonacci", "deno"),
-      "Bun": getTimeScore("cpu", "fibonacci", "bun")
+      "Node.js": getTimeScore("cpu", "fibonacci", NODEJS),
+      "Deno": getTimeScore("cpu", "fibonacci", DENO),
+      "Bun": getTimeScore("cpu", "fibonacci", BUN)
     },
     {
       category: "CPU Intensive",
-      "Node.js": getTimeScore("cpu", "primeCalculation", "node"),
-      "Deno": getTimeScore("cpu", "primeCalculation", "deno"),
-      "Bun": getTimeScore("cpu", "primeCalculation", "bun")
+      "Node.js": getTimeScore("cpu", "primeCalculation", NODEJS),
+      "Deno": getTimeScore("cpu", "primeCalculation", DENO),
+      "Bun": getTimeScore("cpu", "primeCalculation", BUN)
     }
   ];
 };
@@ -173,19 +176,20 @@ const calculateOverallScores = (benchmarkData: BenchmarkData) => {
   const scores: {[key: string]: number} = { 'Node.js': 0, 'Deno': 0, 'Bun': 0 };
   
   categories.forEach(category => {
-    const runtimes = ['node', 'deno', 'bun'];
+    // const runtimes = [NODEJS, DENO, BUN];
+    const runtimes = [NODEJS, DENO, BUN];
     
     category.tests.forEach(test => {
       // Get execution times for this test
       const times = runtimes.map(r => 
-        benchmarkData[r].summary[test.cat][test.test].executionTime.avg
+        benchmarkData.runtimes[r].summary[test.cat][test.test].executionTime.avg
       );
       
       // Calculate score (lower is better for execution time)
       const min = Math.min(...times);
       runtimes.forEach((runtime, i) => {
-        const normalizedScore = min / times[i]; // 1.0 for the fastest, less for others
-        scores[benchmarkData[runtime].runtime] += normalizedScore * test.weight * category.weight;
+        const normalizedScore = times[i] === 0 ? 0 : (min / times[i]) * 100; // 1.0 for the fastest, less for others
+        scores[benchmarkData.runtimes[runtime].runtime] += normalizedScore * test.weight * category.weight;
       });
     });
   });
@@ -242,6 +246,8 @@ export default function BenchmarkDashboard() {
   const radarData = prepareRadarData(benchmarkData);
   const overallScores = calculateOverallScores(benchmarkData);
 
+  console.log(overallScores)
+
   return (
     <div className="flex flex-col space-y-6 p-6 max-w-6xl mx-auto">
       <h1 className="text-3xl font-bold text-center">JavaScript Runtime Benchmark Comparison</h1>
@@ -291,9 +297,6 @@ export default function BenchmarkDashboard() {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <p className="mt-4 text-sm text-gray-600">
-              Overall score based on weighted average of all benchmarks. Higher scores indicate better overall performance.
-            </p>
           </div>
           
           <div className="bg-white p-6 rounded-lg shadow">
@@ -311,21 +314,6 @@ export default function BenchmarkDashboard() {
                 </RadarChart>
               </ResponsiveContainer>
             </div>
-            <p className="mt-4 text-sm text-gray-600">
-              Radar chart showing the relative strengths of each runtime across different categories.
-              Higher scores indicate better performance.
-            </p>
-          </div>
-          
-          <div className="bg-white p-6 rounded-lg shadow md:col-span-2">
-            <h2 className="text-xl font-semibold mb-4">Key Findings</h2>
-            <ul className="list-disc pl-5 space-y-2">
-              <li><strong>Bun</strong> excels at file I/O operations and shows significant performance advantages in CPU-intensive tasks.</li>
-              <li><strong>Deno</strong> provides balanced performance and improved memory efficiency compared to Node.js.</li>
-              <li><strong>Node.js</strong> remains competitive and reliable but is generally slower than newer runtimes.</li>
-              <li>For JSON processing, <strong>Bun</strong> is approximately 40% faster than Node.js and 30% faster than Deno.</li>
-              <li>Memory allocation/deallocation is most efficient in <strong>Bun</strong>, followed by Deno.</li>
-            </ul>
           </div>
         </div>
       )}
@@ -350,15 +338,6 @@ export default function BenchmarkDashboard() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <div className="mt-6">
-            <h3 className="text-lg font-medium mb-2">Observations:</h3>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>Bun consistently outperforms both Node.js and Deno in execution time across all test categories</li>
-              <li>The most significant performance gap is in CPU-intensive operations (Prime Calculation)</li>
-              <li>File I/O operations show the largest relative difference between runtimes</li>
-              <li>JSON parsing shows significant performance variations between the three runtimes</li>
-            </ul>
-          </div>
         </div>
       )}
       
@@ -381,15 +360,6 @@ export default function BenchmarkDashboard() {
                 <Bar dataKey="Bun" fill="#ff8042" />
               </BarChart>
             </ResponsiveContainer>
-          </div>
-          <div className="mt-6">
-            <h3 className="text-lg font-medium mb-2">Memory Usage Analysis:</h3>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>JSON loading has the highest memory footprint across all runtimes</li>
-              <li>Bun generally uses less memory than Node.js and Deno for most operations</li>
-              <li>Memory differences are minimal for CPU-bound operations (Fibonacci, Prime Calculation)</li>
-              <li>For memory allocation/deallocation, all three runtimes show comparable efficiency</li>
-            </ul>
           </div>
         </div>
       )}
