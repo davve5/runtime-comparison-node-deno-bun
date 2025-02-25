@@ -1,9 +1,9 @@
-const { saveJsonToFile } = require('../utils/filesystem');
-const { getMedian } = require('../utils/helpers');
-const { BENCHMARK_CONFIG, runtime } = require('../config');
+import { BENCHMARK_CONFIG, runtime } from '../config.js';
+import { saveJsonToFile } from '../utils/filesystem.js';
+import { getMedian } from '../utils/helpers.js';
 
 // Initialize benchmark results structure
-const initBenchmarkResults = () => {
+export const initBenchmarkResults = () => {
   return {
     runtime,
     date: new Date().toISOString(),
@@ -14,13 +14,13 @@ const initBenchmarkResults = () => {
 };
 
 // Add iteration results to the benchmark results
-const addIterationResults = (benchmarkResults, iterationResults) => {
+export const addIterationResults = (benchmarkResults, iterationResults) => {
   benchmarkResults.iterations.push(iterationResults);
   return benchmarkResults;
 };
 
 // Calculate summary statistics from all iterations
-const calculateSummaryStatistics = (benchmarkResults) => {
+export const calculateSummaryStatistics = (benchmarkResults) => {
   const aggregatedResults = {};
 
   // Extract data from all iterations
@@ -75,14 +75,7 @@ const calculateSummaryStatistics = (benchmarkResults) => {
 };
 
 // Save benchmark results to a file
-const saveResults = async (benchmarkResults) => {
+export const saveResults = async (benchmarkResults) => {
   await saveJsonToFile(BENCHMARK_CONFIG.outputFile, benchmarkResults);
   console.log(`Results saved to ${BENCHMARK_CONFIG.outputFile}`);
-};
-
-module.exports = {
-  initBenchmarkResults,
-  addIterationResults,
-  calculateSummaryStatistics,
-  saveResults
 };

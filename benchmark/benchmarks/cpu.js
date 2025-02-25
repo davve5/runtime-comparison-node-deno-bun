@@ -1,4 +1,4 @@
-const { benchmark } = require('../utils/helpers');
+import { benchmark } from '../utils/helpers.js';
 
 // Run Fibonacci calculation benchmark
 const runFibonacciBenchmark = async (iteration) => {
@@ -56,13 +56,10 @@ const runPrimeCalculationBenchmark = async (iteration) => {
 };
 
 // Run all CPU benchmarks
-const runCPUBenchmarks = async (iteration) => {
+export const runCPUBenchmarks = async (iteration) => {
   const results = {};
   results.fibonacci = await runFibonacciBenchmark(iteration);
   results.primeCalculation = await runPrimeCalculationBenchmark(iteration);
   return results;
 };
 
-module.exports = {
-  runCPUBenchmarks
-};

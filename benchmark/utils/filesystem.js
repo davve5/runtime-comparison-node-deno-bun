@@ -1,7 +1,7 @@
-const { runtime, fs, fsPromises, path } = require('./runtime');
+import { fsPromises, runtime } from './runtime.js';
 
 // Save results to JSON file
-const saveJsonToFile = async (filePath, data) => {
+export const saveJsonToFile = async (filePath, data) => {
   const jsonStr = JSON.stringify(data, null, 2);
 
   if (runtime === 'Node.js') {
@@ -16,7 +16,7 @@ const saveJsonToFile = async (filePath, data) => {
 };
 
 // Read JSON file
-const readJsonFromFile = async (filePath) => {
+export const readJsonFromFile = async (filePath) => {
   try {
     if (runtime === 'Node.js') {
       const data = await fsPromises.readFile(filePath, 'utf8');
@@ -38,7 +38,7 @@ const readJsonFromFile = async (filePath) => {
 };
 
 // Check if file exists
-const fileExists = async (filePath) => {
+export const fileExists = async (filePath) => {
   try {
     if (runtime === 'Node.js') {
       await fsPromises.access(filePath);
@@ -57,8 +57,3 @@ const fileExists = async (filePath) => {
   }
 };
 
-module.exports = {
-  saveJsonToFile,
-  readJsonFromFile,
-  fileExists
-};

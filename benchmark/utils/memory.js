@@ -1,7 +1,7 @@
-const { runtime } = require('../config');
+import { runtime } from '../config.js';
 
 // Get current memory usage
-const getMemoryUsage = () => {
+export const getMemoryUsage = () => {
   if (runtime === 'Node.js') {
     const memUsage = process.memoryUsage();
     return {
@@ -30,7 +30,7 @@ const getMemoryUsage = () => {
 };
 
 // Format memory for display
-const formatMemory = (mem) => {
+export const formatMemory = (mem) => {
   return {
     rss: `${mem.rss.toFixed(2)} MB`,
     heapTotal: `${mem.heapTotal.toFixed(2)} MB`,
@@ -40,7 +40,7 @@ const formatMemory = (mem) => {
 };
 
 // Force garbage collection if available
-const forceGC = () => {
+export const forceGC = () => {
   if (runtime === 'Bun' && typeof Bun.gc === 'function') {
     Bun.gc(true);
   } else if (runtime === 'Node.js' && global.gc) {
@@ -51,8 +51,3 @@ const forceGC = () => {
   // If GC is not available, we can't force it
 };
 
-module.exports = {
-  getMemoryUsage,
-  formatMemory,
-  forceGC
-};

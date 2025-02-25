@@ -1,12 +1,14 @@
-const { performance } = require('./runtime');
-const { getMemoryUsage, formatMemory } = require('./memory');
-const { BENCHMARK_CONFIG } = require('../config');
+import { BENCHMARK_CONFIG } from '../config.js';
+import { formatMemory, getMemoryUsage } from './memory.js';
+import { performance } from './runtime.js';
+
+console.log(performance)
 
 // Sleep function
-const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+export const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Calculate median value
-const getMedian = (values) => {
+export const getMedian = (values) => {
   if (values.length === 0) return 0;
 
   const sorted = [...values].sort((a, b) => a - b);
@@ -18,7 +20,7 @@ const getMedian = (values) => {
 };
 
 // Run a benchmark
-const benchmark = async (name, fn, iteration) => {
+export const benchmark = async (name, fn, iteration) => {
   const isVerbose = iteration % BENCHMARK_CONFIG.sampleEvery === 0;
 
   if (isVerbose) {
@@ -69,10 +71,4 @@ const benchmark = async (name, fn, iteration) => {
     memoryDifference,
     result: result || null
   };
-};
-
-module.exports = {
-  sleep,
-  getMedian,
-  benchmark
 };

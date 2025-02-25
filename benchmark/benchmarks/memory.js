@@ -1,7 +1,6 @@
-const { benchmark } = require('../utils/helpers');
-const { runtime, fs } = require('../utils/runtime');
-const { forceGC } = require('../utils/memory');
-const { sleep } = require('../utils/helpers');
+import { benchmark, sleep } from '../utils/helpers.js';
+import { forceGC } from '../utils/memory.js';
+import { fsPromises, runtime } from '../utils/runtime.js';
 
 // Run memory allocation/deallocation benchmark
 const runMemoryAllocationBenchmark = async (iteration) => {
@@ -48,7 +47,6 @@ const runJsonLoadBenchmark = async (iteration) => {
     let jsonData;
 
     if (runtime === 'Node.js') {
-      const fsPromises = require('fs').promises;
       const data = await fsPromises.readFile('large-data.json', 'utf8');
       jsonData = JSON.parse(data);
     }
@@ -67,13 +65,10 @@ const runJsonLoadBenchmark = async (iteration) => {
 };
 
 // Run all memory benchmarks
-const runMemoryBenchmarks = async (iteration) => {
+export const runMemoryBenchmarks = async (iteration) => {
   const results = {};
   results.allocationDeallocation = await runMemoryAllocationBenchmark(iteration);
   results.jsonLoad = await runJsonLoadBenchmark(iteration);
   return results;
 };
 
-module.exports = {
-  runMemoryBenchmarks
-};

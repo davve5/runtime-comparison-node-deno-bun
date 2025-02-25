@@ -1,7 +1,7 @@
-const { runtime, fs, fsPromises, crypto } = require('../utils/runtime');
+import { crypto, fs, fsPromises, runtime } from '../utils/runtime.js';
 
 // Generate test data files
-const generateTestFiles = async () => {
+export const generateTestFiles = async () => {
   console.log('\n----- Generating test files -----');
 
   await generateLargeJson();
@@ -107,8 +107,4 @@ const generateLargeBinaryFile = async () => {
   }
 
   console.log(`Generated ${filePath}`);
-};
-
-module.exports = {
-  generateTestFiles
 };

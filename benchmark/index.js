@@ -1,16 +1,15 @@
-const { BENCHMARK_CONFIG, runtime } = require('./config');
-const { generateTestFiles } = require('./generators/test-files');
-const { runMemoryBenchmarks } = require('./benchmarks/memory');
-const { runDiskIOBenchmarks } = require('./benchmarks/disk');
-const { runCPUBenchmarks } = require('./benchmarks/cpu');
-const {
-  initBenchmarkResults,
+import { runCPUBenchmarks } from './benchmarks/cpu.js';
+import { runDiskIOBenchmarks } from './benchmarks/disk.js';
+import { runMemoryBenchmarks } from './benchmarks/memory.js';
+import { BENCHMARK_CONFIG, runtime } from './config.js';
+import {
   addIterationResults,
   calculateSummaryStatistics,
+  initBenchmarkResults,
   saveResults
-} = require('./results/collector');
-const { combineResults } = require('./results/combiner');
-const { sleep } = require('./utils/helpers');
+} from './results/collector.js';
+import { combineResults } from './results/combiner.js';
+import { sleep } from './utils/helpers.js';
 
 // Main benchmark runner
 const runBenchmarkSuite = async () => {
@@ -18,7 +17,7 @@ const runBenchmarkSuite = async () => {
   const benchmarkResults = initBenchmarkResults();
 
   // Generate test files once
-  await generateTestFiles();
+  // await generateTestFiles();
 
   // Run benchmarks for multiple iterations
   for (let i = 0; i < BENCHMARK_CONFIG.iterations; i++) {

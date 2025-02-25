@@ -1,5 +1,5 @@
-const { readJsonFromFile, saveJsonToFile, fileExists } = require('../utils/filesystem');
-const { BENCHMARK_CONFIG } = require('../config');
+import { BENCHMARK_CONFIG } from '../config.js';
+import { fileExists, readJsonFromFile, saveJsonToFile } from '../utils/filesystem.js';
 
 // Get paths to individual runtime result files
 const getResultFilePaths = () => {
@@ -11,7 +11,7 @@ const getResultFilePaths = () => {
 };
 
 // Combine results from all runtimes
-const combineResults = async () => {
+export const combineResults = async () => {
   console.log('\n----- Combining results from all runtimes -----');
 
   const filePaths = getResultFilePaths();
@@ -50,6 +50,3 @@ const combineResults = async () => {
   }
 };
 
-module.exports = {
-  combineResults
-};

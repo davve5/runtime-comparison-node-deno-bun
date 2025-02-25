@@ -1,5 +1,5 @@
-const { benchmark } = require('../utils/helpers');
-const { runtime } = require('../utils/runtime');
+import { benchmark } from '../utils/helpers.js';
+import { fs, runtime } from '../utils/runtime.js';
 
 // Run large file read benchmark
 const runFileReadBenchmark = async (iteration) => {
@@ -9,7 +9,6 @@ const runFileReadBenchmark = async (iteration) => {
     let totalRead = 0;
 
     if (runtime === 'Node.js') {
-      const fs = require('fs');
       const readStream = fs.createReadStream(filePath, { highWaterMark: chunkSize });
 
       await new Promise(resolve => {
@@ -41,12 +40,9 @@ const runFileReadBenchmark = async (iteration) => {
 };
 
 // Run all disk I/O benchmarks
-const runDiskIOBenchmarks = async (iteration) => {
+export const runDiskIOBenchmarks = async (iteration) => {
   const results = {};
   results.fileRead = await runFileReadBenchmark(iteration);
   return results;
 };
 
-module.exports = {
-  runDiskIOBenchmarks
-};

@@ -1,27 +1,33 @@
-const { runtime } = require('../config');
+import { runtime as _runtime } from '../config.js';
 
-// Runtime-specific imports and utilities
-const getRuntimeSpecificAPIs = () => {
+export const getRuntimeSpecificAPIs = async () => {
   let fs, fsPromises, path, crypto, performance;
 
-  if (runtime === 'Node.js') {
-    fs = require('fs');
-    fsPromises = fs.promises;
-    path = require('path');
-    crypto = require('crypto');
-    performance = require('perf_hooks').performance;
-  } else if (runtime === 'Deno') {
+  if (_runtime === 'Node.js') {
+    const fsModule = await import('fs');
+    fs = fsModule;
+    fsPromises = fsModule.promises;
+
+    const pathModule = await import('path');
+    path = pathModule;
+
+    const cryptoModule = await import('crypto');
+    crypto = cryptoModule;
+
+    const perfHooks = await import('perf_hooks');
+    performance = perfHooks.performance;
+  } else if (_runtime === 'Deno') {
     fs = Deno.fs;
-    fsPromises = null; // Deno uses different API
+    fsPromises = null;
     path = { join: (...paths) => paths.join('/') };
-    crypto = crypto; // Global in Deno
-    performance = self.performance;
-  } else if (runtime === 'Bun') {
+    crypto = globalThis.crypto;
+    performance = globalThis.performance;
+  } else if (_runtime === 'Bun') {
     fs = Bun.file;
-    fsPromises = null; // Bun uses different API
+    fsPromises = null;
     path = { join: (...paths) => paths.join('/') };
-    crypto = crypto; // Global in Bun
-    performance = self.performance;
+    crypto = globalThis.crypto;
+    performance = globalThis.performance;
   } else {
     throw new Error('Unsupported runtime');
   }
@@ -29,7 +35,7 @@ const getRuntimeSpecificAPIs = () => {
   return { fs, fsPromises, path, crypto, performance };
 };
 
-module.exports = {
-  runtime,
-  ...getRuntimeSpecificAPIs()
-};
+// Ensure top-level await works in ES modules
+export const runtime = _runtime;
+export const runtimeAPIs = await getRuntimeSpecificAPIs();
+export const { fs, fsPromises, path, crypto, performance } = runtimeAPIs;
