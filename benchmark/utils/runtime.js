@@ -5,14 +5,14 @@ export const getRuntimeSpecificAPIs = async () => {
 
   if (_runtime === 'Node.js') {
     const fsModule = await import('fs');
-    fs = fsModule;
+    fs = fsModule.default;
     fsPromises = fsModule.promises;
 
     const pathModule = await import('path');
-    path = pathModule;
+    path = pathModule.default;
 
     const cryptoModule = await import('crypto');
-    crypto = cryptoModule;
+    crypto = cryptoModule.default;
 
     const perfHooks = await import('perf_hooks');
     performance = perfHooks.performance;

@@ -1,20 +1,22 @@
-import { BENCHMARK_CONFIG } from '../config.js';
+import path from 'path';
 import { fileExists, readJsonFromFile, saveJsonToFile } from '../utils/filesystem.js';
 
-// Get paths to individual runtime result files
-const getResultFilePaths = () => {
+// Get paths to individual runtime result files based on the combinedOutputFile path
+const getResultFilePaths = (combinedOutputFilePath) => {
+  const dirPath = path.dirname(combinedOutputFilePath);
+
   return [
-    '../visualization/public/data/benchmark-results-nodejs.json',
-    '../visualization/public/data/benchmark-results-deno.json',
-    '../visualization/public/data/benchmark-results-bun.json'
+    `${dirPath}/benchmark-results-nodejs.json`,
+    `${dirPath}/benchmark-results-deno.json`,
+    `${dirPath}/benchmark-results-bun.json`
   ];
 };
 
 // Combine results from all runtimes
-export const combineResults = async () => {
+export const combineResults = async (combinedOutputFile) => {
   console.log('\n----- Combining results from all runtimes -----');
 
-  const filePaths = getResultFilePaths();
+  const filePaths = getResultFilePaths(combinedOutputFile);
   const combinedResults = {
     date: new Date().toISOString(),
     runtimes: []
@@ -31,7 +33,8 @@ export const combineResults = async () => {
         combinedResults.runtimes.push({
           name: results.runtime,
           summary: results.summary,
-          date: results.date
+          date: results.date,
+          config: results.config
         });
       }
     } else {
@@ -41,12 +44,11 @@ export const combineResults = async () => {
 
   // If we have results from all runtimes, save the combined file
   if (combinedResults.runtimes.length > 0) {
-    await saveJsonToFile(BENCHMARK_CONFIG.combinedOutputFile, combinedResults);
-    console.log(`Combined results saved to ${BENCHMARK_CONFIG.combinedOutputFile}`);
+    await saveJsonToFile(combinedOutputFile, combinedResults);
+    console.log(`Combined results saved to ${combinedOutputFile}`);
     return true;
   } else {
     console.log('No results found to combine');
     return false;
   }
 };
-

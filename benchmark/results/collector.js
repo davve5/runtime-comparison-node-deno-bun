@@ -1,4 +1,4 @@
-import { BENCHMARK_CONFIG, runtime } from '../config.js';
+import { runtime } from '../config.js';
 import { saveJsonToFile } from '../utils/filesystem.js';
 import { getMedian } from '../utils/helpers.js';
 
@@ -7,7 +7,7 @@ export const initBenchmarkResults = () => {
   return {
     runtime,
     date: new Date().toISOString(),
-    config: BENCHMARK_CONFIG,
+    config: {},
     summary: {},
     iterations: []
   };
@@ -75,7 +75,7 @@ export const calculateSummaryStatistics = (benchmarkResults) => {
 };
 
 // Save benchmark results to a file
-export const saveResults = async (benchmarkResults) => {
-  await saveJsonToFile(BENCHMARK_CONFIG.outputFile, benchmarkResults);
-  console.log(`Results saved to ${BENCHMARK_CONFIG.outputFile}`);
+export const saveResults = async (benchmarkResults, outputFile) => {
+  await saveJsonToFile(outputFile, benchmarkResults);
+  console.log(`Results saved to ${outputFile}`);
 };

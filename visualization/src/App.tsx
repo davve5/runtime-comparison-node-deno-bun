@@ -246,8 +246,6 @@ export default function BenchmarkDashboard() {
   const radarData = prepareRadarData(benchmarkData);
   const overallScores = calculateOverallScores(benchmarkData);
 
-  console.log(overallScores)
-
   return (
     <div className="flex flex-col space-y-6 p-6 max-w-6xl mx-auto">
       <h1 className="text-3xl font-bold text-center">JavaScript Runtime Benchmark Comparison</h1>
@@ -320,6 +318,7 @@ export default function BenchmarkDashboard() {
       
       {activeTab === 'execution' && (
         <div className="bg-white p-6 rounded-lg shadow">
+          <pre>{JSON.stringify(executionTimeData)}</pre>
           <h2 className="text-xl font-semibold mb-4">Execution Time Comparison (ms) - Lower is Better</h2>
           <div className="h-96">
             <ResponsiveContainer width="100%" height="100%">

@@ -1,4 +1,4 @@
-import { crypto, fs, fsPromises, runtime } from '../utils/runtime.js';
+import { crypto, fs, fsPromises, runtime } from './utils/runtime.js';
 
 // Generate test data files
 export const generateTestFiles = async () => {

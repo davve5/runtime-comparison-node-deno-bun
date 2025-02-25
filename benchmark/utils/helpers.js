@@ -1,8 +1,5 @@
-import { BENCHMARK_CONFIG } from '../config.js';
 import { formatMemory, getMemoryUsage } from './memory.js';
 import { performance } from './runtime.js';
-
-console.log(performance)
 
 // Sleep function
 export const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -21,10 +18,15 @@ export const getMedian = (values) => {
 
 // Run a benchmark
 export const benchmark = async (name, fn, iteration) => {
-  const isVerbose = iteration % BENCHMARK_CONFIG.sampleEvery === 0;
+  // Access global configuration if available
+  // Default values for sampleEvery if config isn't available
+  const sampleEvery = (globalThis.BENCHMARK_CONFIG?.sampleEvery) || 1;
+  const totalIterations = (globalThis.BENCHMARK_CONFIG?.iterations) || 10;
+
+  const isVerbose = iteration % sampleEvery === 0;
 
   if (isVerbose) {
-    console.log(`\n----- Running benchmark: ${name} (Iteration ${iteration + 1}/${BENCHMARK_CONFIG.iterations}) -----`);
+    console.log(`\n----- Running benchmark: ${name} (Iteration ${iteration + 1}/${totalIterations}) -----`);
   }
 
   // Record starting memory
