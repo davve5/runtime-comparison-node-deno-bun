@@ -1,4 +1,5 @@
-import { fs, fsPromises } from './utils/runtime.js';
+import fs from 'node:fs';
+import fsPromises from 'node:fs/promises';
 
 // Generate test data files
 export const generateTestFiles = async () => {
