@@ -23,7 +23,7 @@ export const benchmark = async (name, fn, iteration) => {
   const sampleEvery = (globalThis.BENCHMARK_CONFIG?.sampleEvery) || 1;
   const totalIterations = (globalThis.BENCHMARK_CONFIG?.iterations) || 10;
 
-  const isVerbose = iteration % sampleEvery === 0;
+  const isVerbose = false; //iteration % sampleEvery === 0;
 
   if (isVerbose) {
     console.log(`\n----- Running benchmark: ${name} (Iteration ${iteration + 1}/${totalIterations}) -----`);
