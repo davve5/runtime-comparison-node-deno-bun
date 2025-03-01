@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { fileExists, readJsonFromFile, saveJsonToFile } from '../utils/filesystem.js';
 
 // Get paths to individual runtime result files based on the combinedOutputFile path

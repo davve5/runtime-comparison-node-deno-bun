@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { fsPromises, runtime } from './runtime.js';
 
 // Ensure directory exists
