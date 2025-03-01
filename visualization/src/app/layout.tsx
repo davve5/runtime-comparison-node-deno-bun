@@ -5,8 +5,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Runtime Benchmark Dashboard',
-  description: 'Compare performance metrics between Node.js and Bun runtimes',
+  title: 'JavaScript Runtime Comparison',
+  description: 'Performance comparison between Node.js, Deno, and Bun',
 };
 
 export default function RootLayout({
