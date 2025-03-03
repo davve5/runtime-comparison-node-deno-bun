@@ -14,7 +14,9 @@ RUN apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/co
 # Clone the repository
 WORKDIR /app
 RUN git clone https://github.com/davve5/runtime-comparison-node-deno-bun.git .
-RUN chmod +x ./benchmark/run-benchmarks.sh
+
+# Make benchmark script executable
+RUN chmod +x /app/benchmark/run-benchmarks.sh
 
 # Stage 1: 250MHz, 500MB
 FROM base as benchmark_250mhz_500mb
@@ -22,7 +24,7 @@ ENV CPU_LIMIT=0.25
 ENV MEM_LIMIT=500MB
 ENV BENCHMARK_NAME="250MHz_500MB"
 CMD echo "Running benchmark with ${CPU_LIMIT} CPUs and ${MEM_LIMIT} memory" && \
-    ./benchmark/run-benchmarks.sh > /results/results_${BENCHMARK_NAME}.log 2>&1
+    /app/benchmark/run-benchmarks.sh > /results/results_${BENCHMARK_NAME}.log 2>&1
 
 # Stage 2: 500MHz, 500MB
 FROM base as benchmark_500mhz_500mb
@@ -30,7 +32,7 @@ ENV CPU_LIMIT=0.5
 ENV MEM_LIMIT=500MB
 ENV BENCHMARK_NAME="500MHz_500MB"
 CMD echo "Running benchmark with ${CPU_LIMIT} CPUs and ${MEM_LIMIT} memory" && \
-    ./benchmark/run-benchmarks.sh > /results/results_${BENCHMARK_NAME}.log 2>&1
+    /app/benchmark/run-benchmarks.sh > /results/results_${BENCHMARK_NAME}.log 2>&1
 
 # Stage 3: 1GHz, 1GB
 FROM base as benchmark_1ghz_1gb
@@ -38,7 +40,7 @@ ENV CPU_LIMIT=1.0
 ENV MEM_LIMIT=1GB
 ENV BENCHMARK_NAME="1GHz_1GB"
 CMD echo "Running benchmark with ${CPU_LIMIT} CPUs and ${MEM_LIMIT} memory" && \
-    ./benchmark/run-benchmarks.sh > /results/results_${BENCHMARK_NAME}.log 2>&1
+    /app/benchmark/run-benchmarks.sh > /results/results_${BENCHMARK_NAME}.log 2>&1
 
 # Stage 4: 2GHz, 2GB
 FROM base as benchmark_2ghz_2gb
@@ -46,7 +48,7 @@ ENV CPU_LIMIT=2.0
 ENV MEM_LIMIT=2GB
 ENV BENCHMARK_NAME="2GHz_2GB"
 CMD echo "Running benchmark with ${CPU_LIMIT} CPUs and ${MEM_LIMIT} memory" && \
-    ./benchmark/run-benchmarks.sh > /results/results_${BENCHMARK_NAME}.log 2>&1
+    /app/benchmark/run-benchmarks.sh > /results/results_${BENCHMARK_NAME}.log 2>&1
 
 # Stage 5: 2GHz, 5GB
 FROM base as benchmark_2ghz_5gb
@@ -54,4 +56,4 @@ ENV CPU_LIMIT=2.0
 ENV MEM_LIMIT=5GB
 ENV BENCHMARK_NAME="2GHz_5GB"
 CMD echo "Running benchmark with ${CPU_LIMIT} CPUs and ${MEM_LIMIT} memory" && \
-    ./benchmark/run-benchmarks.sh > /results/results_${BENCHMARK_NAME}.log 2>&1
+    /app/benchmark/run-benchmarks.sh > /results/results_${BENCHMARK_NAME}.log 2>&1
