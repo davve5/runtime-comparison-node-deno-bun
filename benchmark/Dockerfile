@@ -15,16 +15,17 @@ RUN apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/co
 WORKDIR /app
 RUN git clone https://github.com/davve5/runtime-comparison-node-deno-bun.git .
 
+# Show directory structure for debugging
+
 # Make benchmark script executable
-RUN echo "=== Listing root directory contents ===" && ls -al
-RUN cd ./runtime-comparison-node-deno-bun 
-RUN chmod +x ./run-benchmarks.sh
+RUN chmod +x /app/benchmark/run-benchmarks.sh
 
 # Stage 1: 250MHz, 500MB
 FROM base as benchmark_250mhz_500mb
 ENV CPU_LIMIT=0.25
 ENV MEM_LIMIT=500MB
 ENV BENCHMARK_NAME="250MHz_500MB"
+WORKDIR /app/benchmark
 CMD echo "Running benchmark with ${CPU_LIMIT} CPUs and ${MEM_LIMIT} memory" && \
     ./run-benchmarks.sh > /test_results/results_${BENCHMARK_NAME}.log 2>&1
 
@@ -33,6 +34,7 @@ FROM base as benchmark_500mhz_500mb
 ENV CPU_LIMIT=0.5
 ENV MEM_LIMIT=500MB
 ENV BENCHMARK_NAME="500MHz_500MB"
+WORKDIR /app/benchmark
 CMD echo "Running benchmark with ${CPU_LIMIT} CPUs and ${MEM_LIMIT} memory" && \
     ./run-benchmarks.sh > /test_results/results_${BENCHMARK_NAME}.log 2>&1
 
@@ -41,6 +43,7 @@ FROM base as benchmark_1ghz_1gb
 ENV CPU_LIMIT=1.0
 ENV MEM_LIMIT=1GB
 ENV BENCHMARK_NAME="1GHz_1GB"
+WORKDIR /app/benchmark
 CMD echo "Running benchmark with ${CPU_LIMIT} CPUs and ${MEM_LIMIT} memory" && \
     ./run-benchmarks.sh > /test_results/results_${BENCHMARK_NAME}.log 2>&1
 
@@ -49,6 +52,7 @@ FROM base as benchmark_2ghz_2gb
 ENV CPU_LIMIT=2.0
 ENV MEM_LIMIT=2GB
 ENV BENCHMARK_NAME="2GHz_2GB"
+WORKDIR /app/benchmark
 CMD echo "Running benchmark with ${CPU_LIMIT} CPUs and ${MEM_LIMIT} memory" && \
     ./run-benchmarks.sh > /test_results/results_${BENCHMARK_NAME}.log 2>&1
 
@@ -57,5 +61,6 @@ FROM base as benchmark_2ghz_5gb
 ENV CPU_LIMIT=2.0
 ENV MEM_LIMIT=5GB
 ENV BENCHMARK_NAME="2GHz_5GB"
+WORKDIR /app/benchmark
 CMD echo "Running benchmark with ${CPU_LIMIT} CPUs and ${MEM_LIMIT} memory" && \
     ./run-benchmarks.sh > /test_results/results_${BENCHMARK_NAME}.log 2>&1
