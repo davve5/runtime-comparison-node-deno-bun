@@ -1,47 +1,79 @@
 version: '3.9'
 
 services:
-  container_250mhz_500mb:
-    image: alpine
+  benchmark_250mhz_500mb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: benchmark_250mhz_500mb
     deploy:
       resources:
         limits:
           cpus: '0.25'
           memory: '500MB'
-    command: sh -c "apk add --no-cache git nodejs npm bun deno && git clone https://github.com/your-nodejs-repo.git /app && cd /app && chmod +x run-benchmarks.sh && ./run-benchmarks.sh"
+    volumes:
+      - ./test_results:/test_results
 
-  container_500mhz_500mb:
-    image: alpine
+  benchmark_500mhz_500mb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: benchmark_500mhz_500mb
     deploy:
       resources:
         limits:
           cpus: '0.5'
           memory: '500MB'
-    command: sh -c "apk add --no-cache git nodejs npm bun deno && git clone https://github.com/your-nodejs-repo.git /app && cd /app && chmod +x run-benchmarks.sh && ./run-benchmarks.sh"
+    volumes:
+      - ./test_results:/test_results
+    depends_on:
+      benchmark_250mhz_500mb:
+        condition: service_completed_successfully
 
-  container_1ghz_1gb:
-    image: alpine
+  benchmark_1ghz_1gb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: benchmark_1ghz_1gb
     deploy:
       resources:
         limits:
           cpus: '1.0'
           memory: '1GB'
-    command: sh -c "apk add --no-cache git nodejs npm bun deno && git clone https://github.com/your-nodejs-repo.git /app && cd /app && chmod +x run-benchmarks.sh && ./run-benchmarks.sh"
+    volumes:
+      - ./test_results:/test_results
+    depends_on:
+      benchmark_500mhz_500mb:
+        condition: service_completed_successfully
 
-  container_2ghz_2gb:
-    image: alpine
+  benchmark_2ghz_2gb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: benchmark_2ghz_2gb
     deploy:
       resources:
         limits:
           cpus: '2.0'
           memory: '2GB'
-    command: sh -c "apk add --no-cache git nodejs npm bun deno && git clone https://github.com/your-nodejs-repo.git /app && cd /app && chmod +x run-benchmarks.sh && ./run-benchmarks.sh"
+    volumes:
+      - ./test_results:/test_results
+    depends_on:
+      benchmark_1ghz_1gb:
+        condition: service_completed_successfully
 
-  container_2ghz_5gb:
-    image: alpine
+  benchmark_2ghz_5gb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: benchmark_2ghz_5gb
     deploy:
       resources:
         limits:
           cpus: '2.0'
           memory: '5GB'
-    command: sh -c "apk add --no-cache git nodejs npm bun deno && git clone https://github.com/your-nodejs-repo.git /app && cd /app && chmod +x run-benchmarks.sh && ./run-benchmarks.sh"
+    volumes:
+      - ./test_results:/test_results
+    depends_on:
+      benchmark_2ghz_2gb:
+        condition: service_completed_successfully

@@ -8,8 +8,8 @@ NC='\033[0m' # No Color
 
 # Configuration
 BENCHMARK_SCRIPT="index.js"
-ITERATIONS_ARRAY=(10 20 50)
-SAMPLE_RATES_ARRAY=(1 2 5 10)
+ITERATIONS_ARRAY=(50)
+SAMPLE_RATES_ARRAY=(1 10)
 GENERATE_TEST_FILES=true
 
 # Function to print section header
