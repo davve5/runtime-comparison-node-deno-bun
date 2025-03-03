@@ -16,6 +16,7 @@ WORKDIR /app
 RUN git clone https://github.com/davve5/runtime-comparison-node-deno-bun.git .
 
 # Make benchmark script executable
+RUN ls -al
 RUN cd ./runtime-comparison-node-deno-bun 
 RUN chmod +x ./run-benchmarks.sh
 
