@@ -3,9 +3,12 @@ FROM alpine:latest as base
 # Install common dependencies
 RUN apk add --no-cache git nodejs npm curl unzip
 
-# Install Bun properly using their install script
-RUN curl -fsSL https://bun.sh/install | bash
-ENV PATH="/root/.bun/bin:${PATH}"
+# Install Bun directly from GitHub releases
+RUN curl -fsSL https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64.zip -o bun.zip && \
+    mkdir -p /usr/local/bun && \
+    unzip bun.zip -d /usr/local/bun && \
+    ln -s /usr/local/bun/bun-linux-x64/bun /usr/local/bin/bun && \
+    rm bun.zip
 RUN apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community deno
 
 # Clone the repository
