@@ -25,8 +25,7 @@ FROM base as benchmark_250mhz_500mb
 ENV CPU_LIMIT=0.25
 ENV MEM_LIMIT=500MB
 ENV BENCHMARK_NAME="250MHz_500MB"
-WORKDIR /app
-
+WORKDIR /app/benchmark
 CMD echo "Running benchmark with ${CPU_LIMIT} CPUs and ${MEM_LIMIT} memory" && \
     ./run-benchmarks.sh > /test_results/results_${BENCHMARK_NAME}.log 2>&1
 
