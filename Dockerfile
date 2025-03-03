@@ -16,7 +16,6 @@ WORKDIR /app
 RUN git clone https://github.com/davve5/runtime-comparison-node-deno-bun.git .
 
 # Make benchmark script executable
-RUN cd ./benchmark
 RUN chmod +x ./run-benchmarks.sh
 
 # Stage 1: 250MHz, 500MB

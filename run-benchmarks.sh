@@ -7,7 +7,7 @@ YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
 # Configuration
-BENCHMARK_SCRIPT="index.js"
+BENCHMARK_SCRIPT="./benchmark/index.js"
 ITERATIONS_ARRAY=(50)
 SAMPLE_RATES_ARRAY=(1 10)
 GENERATE_TEST_FILES=true
