@@ -1,5 +1,4 @@
-import { benchmark, sleep } from '../utils/helpers.js';
-import { forceGC } from '../utils/memory.js';
+import { benchmark } from '../utils/helpers.js';
 import { fsPromises, runtime } from '../utils/runtime.js';
 
 // Run memory allocation/deallocation benchmark
@@ -32,8 +31,8 @@ const runMemoryAllocationBenchmark = async (iteration) => {
 
       // Occasionally force GC if available
       if (i % 100 === 0) {
-        forceGC();
-        await sleep(10); // Small delay to allow GC to run
+        // forceGC();
+        // await sleep(10); // Small delay to allow GC to run
       }
     }
 

@@ -41,13 +41,13 @@ export const formatMemory = (mem) => {
 
 // Force garbage collection if available
 export const forceGC = () => {
-  if (runtime === 'Bun' && typeof Bun.gc === 'function') {
-    Bun.gc(true);
-  } else if (runtime === 'Node.js' && global.gc) {
-    global.gc();
-  } else if (runtime === 'Deno' && Deno.core && typeof Deno.core.gc === 'function') {
-    Deno.core.gc();
-  }
+  // if (runtime === 'Bun' && typeof Bun.gc === 'function') {
+  //   Bun.gc(true);
+  // } else if (runtime === 'Node.js' && global.gc) {
+  //   global.gc();
+  // } else if (runtime === 'Deno' && Deno.core && typeof Deno.core.gc === 'function') {
+  //   Deno.core.gc();
+  // }
   // If GC is not available, we can't force it
 };
 

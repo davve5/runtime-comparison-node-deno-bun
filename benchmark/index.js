@@ -2,7 +2,6 @@ import { runCPUBenchmarks } from './benchmarks/cpu.js';
 import { runDiskIOBenchmarks } from './benchmarks/disk.js';
 import { runMemoryBenchmarks } from './benchmarks/memory.js';
 import { createBenchmarkConfig, runtime } from './config.js';
-import { generateTestFiles } from './generators/test-files.js';
 import {
   addIterationResults,
   calculateSummaryStatistics,
@@ -36,9 +35,9 @@ const runBenchmarkSuite = async () => {
   benchmarkResults.config = BENCHMARK_CONFIG;
 
   // Generate test files if requested
-  if (args.generateTestFiles) {
-    await generateTestFiles()
-  }
+  // if (args.generateTestFiles) {
+  // await generateTestFiles()
+  // }
 
   console.log(`Starting benchmarks for ${runtime}. Will run ${iterations} iterations`);
 

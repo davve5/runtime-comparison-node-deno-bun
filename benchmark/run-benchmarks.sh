@@ -7,9 +7,9 @@ YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
 # Configuration
-BENCHMARK_SCRIPT="./benchmark/index.js"
+BENCHMARK_SCRIPT="./index.js"
 ITERATIONS_ARRAY=(50)
-SAMPLE_RATES_ARRAY=(1 10)
+SAMPLE_RATES_ARRAY=(1)
 GENERATE_TEST_FILES=true
 
 # Function to print section header

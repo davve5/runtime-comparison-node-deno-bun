@@ -49,9 +49,9 @@ const runPrimeCalculationBenchmark = async (iteration) => {
       }
       return primes;
     }
-
-    const primes = findPrimes(50000);
-    return `Found ${primes.length} prime numbers up to 50,000`;
+    const N = 100_000_000;
+    const primes = findPrimes(N);
+    return `Found ${primes.length} prime numbers up to ${N}`;
   }, iteration);
 };
 

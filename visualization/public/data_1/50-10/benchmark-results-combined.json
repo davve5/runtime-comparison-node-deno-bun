@@ -1,0 +1,269 @@
+{
+  "date": "2025-03-10T17:58:16.360Z",
+  "runtimes": [
+    {
+      "name": "Node.js",
+      "summary": {
+        "memory": {
+          "allocationDeallocation": {
+            "executionTime": {
+              "min": 199.79702100000577,
+              "max": 410.522826,
+              "avg": 299.8282271399991,
+              "median": 319.75122599999304
+            },
+            "memoryUsage": {
+              "min": -209.03834533691406,
+              "max": -0.21915435791015625,
+              "avg": -193.87071334838868,
+              "median": -197.08265686035156
+            }
+          },
+          "jsonLoad": {
+            "executionTime": {
+              "min": 1385.4219840000005,
+              "max": 1605.3405980000389,
+              "avg": 1471.213377539999,
+              "median": 1454.8618820000192
+            },
+            "memoryUsage": {
+              "min": 207.7032012939453,
+              "max": 208.8746109008789,
+              "avg": 208.5700650024414,
+              "median": 208.56365203857422
+            }
+          }
+        },
+        "diskIO": {
+          "fileRead": {
+            "executionTime": {
+              "min": 74.81709800000681,
+              "max": 92.60568100001547,
+              "avg": 81.89956783999804,
+              "median": 82.54274900001474
+            },
+            "memoryUsage": {
+              "min": -11.756660461425781,
+              "max": 0.0235748291015625,
+              "avg": -10.739835815429688,
+              "median": -11.66824722290039
+            }
+          }
+        },
+        "cpu": {
+          "fibonacci": {
+            "executionTime": {
+              "min": 6049.591031,
+              "max": 6727.462369000015,
+              "avg": 6664.431117279999,
+              "median": 6662.588988500007
+            },
+            "memoryUsage": {
+              "min": 0.00344085693359375,
+              "max": 0.004852294921875,
+              "avg": 0.0035552978515625,
+              "median": 0.00344085693359375
+            }
+          },
+          "primeCalculation": {
+            "executionTime": {
+              "min": 3.0271199999842793,
+              "max": 6.762117000005674,
+              "avg": 3.838266659997062,
+              "median": 3.8867419999978665
+            },
+            "memoryUsage": {
+              "min": 0.15622711181640625,
+              "max": 0.1931610107421875,
+              "avg": 0.16007781982421876,
+              "median": 0.159393310546875
+            }
+          }
+        }
+      },
+      "date": "2025-03-10T17:38:04.701Z",
+      "config": {
+        "iterations": 50,
+        "sampleEvery": 10,
+        "outputFile": "../visualization/public/data/50-10/benchmark-results-nodejs.json",
+        "combinedOutputFile": "../visualization/public/data/50-10/benchmark-results-combined.json"
+      }
+    },
+    {
+      "name": "Deno",
+      "summary": {
+        "memory": {
+          "allocationDeallocation": {
+            "executionTime": {
+              "min": 251.5744190000114,
+              "max": 299.82544600000256,
+              "avg": 274.2918855600004,
+              "median": 272.73346999999194
+            },
+            "memoryUsage": {
+              "min": -208.59874725341797,
+              "max": 0.8211517333984375,
+              "avg": -203.5282780456543,
+              "median": -207.6472396850586
+            }
+          },
+          "jsonLoad": {
+            "executionTime": {
+              "min": 1113.5031369999924,
+              "max": 1221.6695439999999,
+              "avg": 1132.6350242799997,
+              "median": 1128.362269499985
+            },
+            "memoryUsage": {
+              "min": 207.0762939453125,
+              "max": 208.094970703125,
+              "avg": 207.36706665039063,
+              "median": 207.31260299682617
+            }
+          }
+        },
+        "diskIO": {
+          "fileRead": {
+            "executionTime": {
+              "min": 30.829431999998633,
+              "max": 39.591151000000536,
+              "avg": 34.412983860002335,
+              "median": 34.248606500004826
+            },
+            "memoryUsage": {
+              "min": 0.116058349609375,
+              "max": 0.13533782958984375,
+              "avg": 0.12581451416015624,
+              "median": 0.12509918212890625
+            }
+          }
+        },
+        "cpu": {
+          "fibonacci": {
+            "executionTime": {
+              "min": 6186.276917,
+              "max": 6783.027647999988,
+              "avg": 6754.678783860004,
+              "median": 6761.913805499997
+            },
+            "memoryUsage": {
+              "min": 0.0032501220703125,
+              "max": 0.0057830810546875,
+              "avg": 0.003333587646484375,
+              "median": 0.0032806396484375
+            }
+          },
+          "primeCalculation": {
+            "executionTime": {
+              "min": 2.8113410000005388,
+              "max": 3.278589000001375,
+              "avg": 3.164859240005171,
+              "median": 3.1667170000109763
+            },
+            "memoryUsage": {
+              "min": 0.166290283203125,
+              "max": 0.1843109130859375,
+              "avg": 0.17156417846679686,
+              "median": 0.171112060546875
+            }
+          }
+        }
+      },
+      "date": "2025-03-10T17:45:59.952Z",
+      "config": {
+        "iterations": 50,
+        "sampleEvery": 10,
+        "outputFile": "../visualization/public/data/50-10/benchmark-results-deno.json",
+        "combinedOutputFile": "../visualization/public/data/50-10/benchmark-results-combined.json"
+      }
+    },
+    {
+      "name": "Bun",
+      "summary": {
+        "memory": {
+          "allocationDeallocation": {
+            "executionTime": {
+              "min": 233.42728400000033,
+              "max": 275.27487000002293,
+              "avg": 248.3120985199986,
+              "median": 243.39100699999472
+            },
+            "memoryUsage": {
+              "min": -99.76493263244629,
+              "max": 2.3874683380126953,
+              "avg": -57.068222541809085,
+              "median": -98.58688974380493
+            }
+          },
+          "jsonLoad": {
+            "executionTime": {
+              "min": 611.0174999999872,
+              "max": 655.2858509999933,
+              "avg": 632.540459459999,
+              "median": 632.7162444999958
+            },
+            "memoryUsage": {
+              "min": 87.92832279205322,
+              "max": 88.03361988067627,
+              "avg": 87.99166700363159,
+              "median": 88.01062107086182
+            }
+          }
+        },
+        "diskIO": {
+          "fileRead": {
+            "executionTime": {
+              "min": 119.44194500001322,
+              "max": 143.75127100001555,
+              "avg": 137.97001834000355,
+              "median": 138.81618500000332
+            },
+            "memoryUsage": {
+              "min": -89.23711681365967,
+              "max": 90.74061965942383,
+              "avg": 82.68363479614258,
+              "median": 89.76305818557739
+            }
+          }
+        },
+        "cpu": {
+          "fibonacci": {
+            "executionTime": {
+              "min": 3522.428031000003,
+              "max": 3564.129891999997,
+              "avg": 3537.86783914,
+              "median": 3536.0587454999986
+            },
+            "memoryUsage": {
+              "min": 0,
+              "max": 0,
+              "avg": 0,
+              "median": 0
+            }
+          },
+          "primeCalculation": {
+            "executionTime": {
+              "min": 2.4775530000006256,
+              "max": 4.707923999987543,
+              "avg": 2.914668179999262,
+              "median": 2.751703500001895
+            },
+            "memoryUsage": {
+              "min": 0,
+              "max": 0,
+              "avg": 0,
+              "median": 0
+            }
+          }
+        }
+      },
+      "date": "2025-03-10T17:53:39.138Z",
+      "config": {
+        "iterations": 50,
+        "sampleEvery": 10,
+        "outputFile": "../visualization/public/data/50-10/benchmark-results-bun.json",
+        "combinedOutputFile": "../visualization/public/data/50-10/benchmark-results-combined.json"
+      }
+    }
+  ]
+}

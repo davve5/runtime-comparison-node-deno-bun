@@ -20,13 +20,12 @@ Analiza wydajności
 4.1. Metodologia testowania wydajności
 4.2. Benchmarki operacji I/O
 4.3. Benchmarki operacji CPU
-4.4. Zarządzanie pamięcią i optymalizacja
+4.4. Benchmarki operacji HTTP
 
 Aspekty bezpieczeństwa
 5.1. Model uprawnień i izolacja środowiska
-5.2. Mechanizmy zabezpieczeń przed atakami (np. XSS, SQL Injection)
-5.3. Obsługa zależności i ekosystem pakietów
-5.4. Polityki aktualizacji i wsparcia
+5.2. Obsługa zależności i ekosystem pakietów
+5.3. Polityki aktualizacji i wsparcia
 
 Zastosowania praktyczne
 6.1. Web development i API
@@ -41,7 +40,6 @@ Porównanie i wnioski
 
 Zakończenie
 8.1. Podsumowanie badań
-8.2. Wskazówki dla programistów i zespołów IT
 
 Bibliografia
 
