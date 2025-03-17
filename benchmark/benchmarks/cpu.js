@@ -1,29 +1,24 @@
 import { benchmark } from '../utils/helpers.js';
 
-// Run Fibonacci calculation benchmark
 const runFibonacciBenchmark = async (iteration) => {
   return await benchmark('Recursive Fibonacci', async () => {
-    // Recursive Fibonacci calculation
     function fibonacci(n) {
       if (n <= 1) return n;
       return fibonacci(n - 1) + fibonacci(n - 2);
     }
 
     const results = [];
-    // Reduced iterations to avoid extremely long runtimes
     const iterations = 3;
-
+    const N = 40;
     for (let i = 0; i < iterations; i++) {
-      const n = 40; // Large enough to be CPU-intensive
-      const result = fibonacci(n);
+      const result = fibonacci(N);
       results.push(result);
     }
 
-    return `Calculated Fibonacci(40) ${iterations} times, result: ${results[0]}`;
+    return `Calculated Fibonacci(${N}) ${iterations} times, result: ${results[0]}`;
   }, iteration);
 };
 
-// Run prime number calculation benchmark
 const runPrimeCalculationBenchmark = async (iteration) => {
   return await benchmark('Prime Number Calculation', async () => {
     function isPrime(num) {
@@ -55,7 +50,6 @@ const runPrimeCalculationBenchmark = async (iteration) => {
   }, iteration);
 };
 
-// Run all CPU benchmarks
 export const runCPUBenchmarks = async (iteration) => {
   const results = {};
   results.fibonacci = await runFibonacciBenchmark(iteration);

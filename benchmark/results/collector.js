@@ -2,7 +2,6 @@ import { runtime } from '../config.js';
 import { saveJsonToFile } from '../utils/filesystem.js';
 import { getMedian } from '../utils/helpers.js';
 
-// Initialize benchmark results structure
 export const initBenchmarkResults = () => {
   return {
     runtime,
@@ -13,17 +12,14 @@ export const initBenchmarkResults = () => {
   };
 };
 
-// Add iteration results to the benchmark results
 export const addIterationResults = (benchmarkResults, iterationResults) => {
   benchmarkResults.iterations.push(iterationResults);
   return benchmarkResults;
 };
 
-// Calculate summary statistics from all iterations
 export const calculateSummaryStatistics = (benchmarkResults) => {
   const aggregatedResults = {};
 
-  // Extract data from all iterations
   benchmarkResults.iterations.forEach(iteration => {
     Object.keys(iteration.tests).forEach(category => {
       if (!aggregatedResults[category]) {
@@ -46,7 +42,6 @@ export const calculateSummaryStatistics = (benchmarkResults) => {
     });
   });
 
-  // Calculate statistics for each test
   Object.keys(aggregatedResults).forEach(category => {
     benchmarkResults.summary[category] = {};
 
@@ -74,7 +69,6 @@ export const calculateSummaryStatistics = (benchmarkResults) => {
   return benchmarkResults;
 };
 
-// Save benchmark results to a file
 export const saveResults = async (benchmarkResults, outputFile) => {
   await saveJsonToFile(outputFile, benchmarkResults);
   console.log(`Results saved to ${outputFile}`);

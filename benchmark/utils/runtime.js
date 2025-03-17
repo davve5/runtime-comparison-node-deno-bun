@@ -35,7 +35,6 @@ export const getRuntimeSpecificAPIs = async () => {
   return { fs, fsPromises, path, crypto, performance };
 };
 
-// Ensure top-level await works in ES modules
 export const runtime = _runtime;
 export const runtimeAPIs = await getRuntimeSpecificAPIs();
 export const { fs, fsPromises, path, crypto, performance } = runtimeAPIs;

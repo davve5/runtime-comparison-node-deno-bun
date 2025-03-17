@@ -1,6 +1,5 @@
 import { runtime } from '../config.js';
 
-// Get current memory usage
 export const getMemoryUsage = () => {
   if (runtime === 'Node.js') {
     const memUsage = process.memoryUsage();
@@ -29,7 +28,6 @@ export const getMemoryUsage = () => {
   }
 };
 
-// Format memory for display
 export const formatMemory = (mem) => {
   return {
     rss: `${mem.rss.toFixed(2)} MB`,
@@ -39,7 +37,6 @@ export const formatMemory = (mem) => {
   };
 };
 
-// Force garbage collection if available
 export const forceGC = () => {
   // if (runtime === 'Bun' && typeof Bun.gc === 'function') {
   //   Bun.gc(true);
@@ -48,6 +45,5 @@ export const forceGC = () => {
   // } else if (runtime === 'Deno' && Deno.core && typeof Deno.core.gc === 'function') {
   //   Deno.core.gc();
   // }
-  // If GC is not available, we can't force it
 };
 

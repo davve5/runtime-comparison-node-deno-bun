@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 
-// Generate test data files
 export const generateTestFiles = async () => {
   console.log('\n----- Generating test files -----');
 
@@ -9,12 +8,10 @@ export const generateTestFiles = async () => {
   await generateLargeBinaryFile();
 };
 
-// Generate a large JSON file (100MB)
 const generateLargeJson = async () => {
   const filePath = 'large-data.json';
   const entries = 1000000;
 
-  // Stream-based approach for Node.js
   const writeStream = fs.createWriteStream(filePath);
   writeStream.write('{\n  "data": [\n');
 
@@ -34,7 +31,6 @@ const generateLargeJson = async () => {
   await new Promise(resolve => writeStream.on('finish', resolve));
 };
 
-// Generate a large binary file (100MB)
 const generateLargeBinaryFile = async () => {
   const filePath = 'large-binary.dat';
   const fileSize = 100 * 1024 * 1024; // 100MB

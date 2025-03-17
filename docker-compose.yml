@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  benchmark_500mhz_500mb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: benchmark_500mhz_500mb
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '500MB'
+    volumes:
+      - ./benchmark/test_results:/test_results
+    environment:
+      - CONFIG_NAME=500mhz_500mb
+
+  benchmark_1ghz_1gb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: benchmark_1ghz_1gb
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: '1GB'
+    volumes:
+      - ./benchmark/test_results:/test_results
+    environment:
+      - CONFIG_NAME=1ghz_1gb
+    depends_on:
+      benchmark_500mhz_500mb:
+        condition: service_completed_successfully

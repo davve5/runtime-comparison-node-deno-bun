@@ -1,17 +1,14 @@
 import path from 'node:path';
 import { fsPromises, runtime } from './runtime.js';
 
-// Ensure directory exists
 export const ensureDirectoryExists = async (filePath) => {
   const dirPath = path.dirname(filePath);
 
   try {
     if (runtime === 'Node.js') {
-      // For Node.js
       await fsPromises.mkdir(dirPath, { recursive: true });
     }
     else if (runtime === 'Deno') {
-      // For Deno
       try {
         await Deno.stat(dirPath);
       } catch (error) {
@@ -23,14 +20,12 @@ export const ensureDirectoryExists = async (filePath) => {
       }
     }
     else if (runtime === 'Bun') {
-      // For Bun
       try {
         const dir = Bun.file(dirPath);
         if (!(await dir.exists())) {
           await Bun.mkdir(dirPath, { recursive: true });
         }
       } catch (error) {
-        // Fallback to Node.js fs
         const fs = await import('fs/promises');
         await fs.mkdir(dirPath, { recursive: true });
       }
@@ -40,11 +35,8 @@ export const ensureDirectoryExists = async (filePath) => {
   }
 };
 
-// Save results to JSON file
 export const saveJsonToFile = async (filePath, data) => {
-  // Ensure directory exists
   await ensureDirectoryExists(filePath);
-
   const jsonStr = JSON.stringify(data, null, 2);
 
   if (runtime === 'Node.js') {
@@ -58,7 +50,6 @@ export const saveJsonToFile = async (filePath, data) => {
   }
 };
 
-// Read JSON file
 export const readJsonFromFile = async (filePath) => {
   try {
     if (runtime === 'Node.js') {
@@ -80,7 +71,6 @@ export const readJsonFromFile = async (filePath) => {
   }
 };
 
-// Check if file exists
 export const fileExists = async (filePath) => {
   try {
     if (runtime === 'Node.js') {

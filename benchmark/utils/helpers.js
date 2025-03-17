@@ -1,10 +1,8 @@
 import { formatMemory, getMemoryUsage } from './memory.js';
 import { performance } from './runtime.js';
 
-// Sleep function
 export const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-// Calculate median value
 export const getMedian = (values) => {
   if (values.length === 0) return 0;
 
@@ -16,10 +14,7 @@ export const getMedian = (values) => {
     : (sorted[mid - 1] + sorted[mid]) / 2;
 };
 
-// Run a benchmark
 export const benchmark = async (name, fn, iteration) => {
-  // Access global configuration if available
-  // Default values for sampleEvery if config isn't available
   const sampleEvery = (globalThis.BENCHMARK_CONFIG?.sampleEvery) || 1;
   const totalIterations = (globalThis.BENCHMARK_CONFIG?.iterations) || 10;
 
@@ -29,25 +24,21 @@ export const benchmark = async (name, fn, iteration) => {
     console.log(`\n----- Running benchmark: ${name} (Iteration ${iteration + 1}/${totalIterations}) -----`);
   }
 
-  // Record starting memory
   const startMemory = getMemoryUsage();
   if (isVerbose) {
     console.log('Starting memory usage:', formatMemory(startMemory));
   }
 
-  // Run the benchmark
   const startTime = performance.now();
   const result = await fn();
   const endTime = performance.now();
   const executionTime = endTime - startTime;
 
-  // Record ending memory
   const endMemory = getMemoryUsage();
   if (isVerbose) {
     console.log('Ending memory usage:', formatMemory(endMemory));
   }
 
-  // Calculate memory difference
   const memoryDifference = {
     rss: endMemory.rss - startMemory.rss,
     heapTotal: endMemory.heapTotal - startMemory.heapTotal,
@@ -64,7 +55,6 @@ export const benchmark = async (name, fn, iteration) => {
     }
   }
 
-  // Return benchmark data
   return {
     name,
     executionTime,

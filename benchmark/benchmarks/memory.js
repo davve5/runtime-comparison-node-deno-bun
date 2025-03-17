@@ -1,14 +1,12 @@
 import { benchmark } from '../utils/helpers.js';
 import { fsPromises, runtime } from '../utils/runtime.js';
 
-// Run memory allocation/deallocation benchmark
 const runMemoryAllocationBenchmark = async (iteration) => {
   return await benchmark('Memory Allocation/Deallocation', async () => {
     const iterations = 1000;
     const results = { allocations: 0, deallocations: 0 };
 
     for (let i = 0; i < iterations; i++) {
-      // Allocate a random-sized buffer
       const size = Math.floor(Math.random() * 1000000) + 1000;
       let buffer;
 
@@ -18,21 +16,18 @@ const runMemoryAllocationBenchmark = async (iteration) => {
         buffer = new Uint8Array(size);
       }
 
-      // Fill buffer with random data
       for (let j = 0; j < size; j += 1000) {
         buffer[j] = Math.floor(Math.random() * 256);
       }
 
       results.allocations++;
 
-      // Force deallocation
       buffer = null;
       results.deallocations++;
 
-      // Occasionally force GC if available
       if (i % 100 === 0) {
         // forceGC();
-        // await sleep(10); // Small delay to allow GC to run
+        // await sleep(10);
       }
     }
 
@@ -40,7 +35,6 @@ const runMemoryAllocationBenchmark = async (iteration) => {
   }, iteration);
 };
 
-// Run large JSON memory load benchmark
 const runJsonLoadBenchmark = async (iteration) => {
   return await benchmark('Large JSON Memory Load', async () => {
     let jsonData;
@@ -63,7 +57,6 @@ const runJsonLoadBenchmark = async (iteration) => {
   }, iteration);
 };
 
-// Run all memory benchmarks
 export const runMemoryBenchmarks = async (iteration) => {
   const results = {};
   results.allocationDeallocation = await runMemoryAllocationBenchmark(iteration);

@@ -1,11 +1,10 @@
 import { benchmark } from '../utils/helpers.js';
 import { fs, runtime } from '../utils/runtime.js';
 
-// Run large file read benchmark
 const runFileReadBenchmark = async (iteration) => {
   return await benchmark('Large File Read', async () => {
     const filePath = 'large-binary.dat';
-    const chunkSize = 1024 * 1024; // 1MB chunks
+    const chunkSize = 1024 * 1024;
     let totalRead = 0;
 
     if (runtime === 'Node.js') {
@@ -39,7 +38,6 @@ const runFileReadBenchmark = async (iteration) => {
   }, iteration);
 };
 
-// Run all disk I/O benchmarks
 export const runDiskIOBenchmarks = async (iteration) => {
   const results = {};
   results.fileRead = await runFileReadBenchmark(iteration);
